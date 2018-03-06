@@ -10,6 +10,8 @@ module.exports = {
                 transaction
             })
         })
+        .populate('member')
+        .populate('booklist')
     },
 
     addTransaction(req, res) {
