@@ -17,8 +17,8 @@ module.exports = {
     addTransaction(req, res) {
         let newTransaction = new Transaction(req.body);
         newTransaction.save(err => {
-            if (err) return res.status(500).json({ message: err });
-            return res.status(200).json({
+            if (err) return res.status(500).send({ message: err.message });
+            return res.status(200).send({
                 message: "Transaction successfully created",
                 transaction: newTransaction
             });
@@ -27,7 +27,8 @@ module.exports = {
 
     editTransaction(req, res) {
         Transaction.findById(req.params.id, (err, transaction) => {
-            if (err) return res.status(500).json({ message: err });
+            if (err) return res.status(500).json({ message: err.message });
+            if (transaction.in_date) return res.status(500).json({ message: 'Buku sudah dikembalikan' });
             transaction.in_date = new Date(req.body.in_date);
             Transaction.update({ _id: req.params.id }, { $set: transaction }, (err, result) => {
                 if (err) return res.status(500).json({ message: err });

@@ -7,5 +7,8 @@ module.exports =
         title: String,
         author: String,
         category: String,
-        stock: Number
+        stock: {
+            type: Number,
+            min: 0
+        }
     }));
